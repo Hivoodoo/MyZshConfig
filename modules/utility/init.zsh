@@ -31,6 +31,7 @@ alias man='nocorrect man'
 alias mkdir='nocorrect mkdir'
 alias mv='nocorrect mv'
 alias mysql='nocorrect mysql'
+alias rmrm="${aliases[mv]:-mv} --verbose --backup=t -t /tmp"
 alias rm='nocorrect rm'
 
 # Disable globbing.
@@ -46,18 +47,24 @@ alias scp='noglob scp'
 alias sftp='noglob sftp'
 
 # Define general aliases.
-alias _='sudo'
-alias b='${(z)BROWSER}'
+alias _="command sudo "
+# alias b='${(z)BROWSER}'
 alias cp="${aliases[cp]:-cp} -i"
-alias e='${(z)VISUAL:-${(z)EDITOR}}'
+# alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias ln="${aliases[ln]:-ln} -i"
 alias mkdir="${aliases[mkdir]:-mkdir} -p"
-alias mv="${aliases[mv]:-mv} -i"
+alias cd..='cd ..'
+alias mv="${aliases[mv]:-mv} -iv"
 alias p='${(z)PAGER}'
 alias po='popd'
 alias pu='pushd'
-alias rm="${aliases[rm]:-rm} -i"
+alias q='exit'
 alias type='type -a'
+alias dirs='dirs -v'
+alias ...='../..'
+alias ....='../../../'
+alias .....='../../../../'
+alias ......='../../../../../'
 
 # ls
 if is-callable 'dircolors'; then
@@ -90,17 +97,31 @@ else
   fi
 fi
 
-alias l='ls -1A'         # Lists in one column, hidden files.
-alias ll='ls -lh'        # Lists human readable sizes.
-alias lr='ll -R'         # Lists human readable sizes, recursively.
-alias la='ll -A'         # Lists human readable sizes, hidden files.
-alias lm='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
-alias lx='ll -XB'        # Lists sorted by extension (GNU only).
-alias lk='ll -Sr'        # Lists sorted by size, largest last.
-alias lt='ll -tr'        # Lists sorted by date, most recent last.
-alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
-alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
-alias sl='ls'            # I often screw this up.
+# alias l='ls -1A'         # Lists in one column, hidden files.
+# alias ll='ls -lh'        # Lists human readable sizes.
+# alias lr='ll -R'         # Lists human readable sizes, recursively.
+# alias la='ll -A'         # Lists human readable sizes, hidden files.
+# alias lm='la | "$PAGER"' # Lists human readable sizes, hidden files through pager.
+# alias lx='ll -XB'        # Lists sorted by extension (GNU only).
+# alias lk='ll -Sr'        # Lists sorted by size, largest last.
+# alias lt='ll -tr'        # Lists sorted by date, most recent last.
+# alias lc='lt -c'         # Lists sorted by date, most recent last, shows change time.
+# alias lu='lt -u'         # Lists sorted by date, most recent last, shows access time.
+alias la='ls -hA'
+alias l='ls -hACF'
+alias ll='ls -halF'        # ls --human-readable --all --classify
+alias /='l'  		   # I often mistype l with /;
+alias //='ll'
+alias r='l'                # I often mistype l with r too.
+alias rp='builtin r'       # builtin r is repeat, a.k.a, rp
+
+# find
+alias find1='find . -maxdepth 1 -iname'
+alias find2='find . -maxdepth 2 -iname'
+alias find3='find . -maxdepth 3 -iname'
+alias find4='find . -maxdepth 4 -iname'
+alias find5='find . -maxdepth 5 -iname'
+alias find6='find . -maxdepth 6 -iname'
 
 # Grep
 if zstyle -t ':prezto:module:utility:grep' color; then
@@ -118,17 +139,23 @@ elif [[ "$OSTYPE" == cygwin* ]]; then
   alias pbcopy='tee > /dev/clipboard'
   alias pbpaste='cat /dev/clipboard'
 else
-  alias o='xdg-open'
+  alias xo='xdg-open'
+  alias xo.='xdg-open .'
 
   if (( $+commands[xclip] )); then
     alias pbcopy='xclip -selection clipboard -in'
     alias pbpaste='xclip -selection clipboard -out'
+    alias x='xclip'
+    alias xx='xclip -selection clipboard'
+    alias cdxi='echo $PWD | x -i'
+    alias cdxo='cd "$(x -o)"'
   elif (( $+commands[xsel] )); then
     alias pbcopy='xsel --clipboard --input'
     alias pbpaste='xsel --clipboard --output'
   fi
 fi
 
+# useful; commented by scinart.
 alias pbc='pbcopy'
 alias pbp='pbpaste'
 
@@ -158,7 +185,7 @@ fi
 # Miscellaneous
 
 # Serves a directory via HTTP.
-alias http-serve='python -m SimpleHTTPServer'
+# alias http-serve='python -m SimpleHTTPServer'
 
 #
 # Functions
