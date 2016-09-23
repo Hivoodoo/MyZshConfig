@@ -17,8 +17,10 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprivate" ]]; then
 fi
 
 # Variables
-export EDITOR="emacsclient --create-frame"
-export VISUAL="emacsclient --create-frame --no-wait --alternate-editor gedit"
+# export EDITOR="emacsclient --create-frame"
+# export VISUAL="emacsclient --create-frame --no-wait --alternate-editor gedit"
+export EDITOR="vim"
+export VISUAL="vim"
 export BROWSER="firefox"
 export PAGER="less -R"
 
@@ -38,8 +40,8 @@ alias t5='tail -n 5'
 
 ################ Program Aliases ##################
 
-alias ec='emacsclient -c'
-alias et='emacsclient --tty'
+# alias ec='emacsclient -c'
+# alias et='emacsclient --tty'
 
 alias bc='bc -q -l'
 alias rscp='rsync -v -P -e ssh'

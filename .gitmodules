@@ -19,3 +19,9 @@
 [submodule "modules/autosuggestions/external"]
 	path = modules/autosuggestions/external
 	url = https://github.com/tarruda/zsh-autosuggestions
+[submodule "modules/tmux/external/tmux-powerline"]
+	path = modules/tmux/external/tmux-powerline
+	url = https://github.com/erikw/tmux-powerline.git
+[submodule "modules/prompt/external/tmux-powerline"]
+	path = modules/prompt/external/tmux-powerline
+	url = https://github.com/erikw/tmux-powerline.git

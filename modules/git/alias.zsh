@@ -30,7 +30,7 @@ zstyle -s ':prezto:module:git:status:ignore' submodules '_git_status_ignore_subm
 #
 
 ################################ Git ################################
-# alias g='git'
+alias g='git'
 
 ################ Branch (b) ################
 alias gb='git branch'
@@ -70,8 +70,8 @@ alias gcb='git checkout'
 alias gcp='git cherry-pick --ff'
 # alias gcP='git cherry-pick --no-commit'
 # alias gcr='git revert'
-# alias gcR='git reset "HEAD^"'
-# alias gcs='git show'
+alias gcR='git reset "HEAD^"'
+alias gcs='git show'
 # alias gcl='git-commit-lost'
 
 # Conflict (C)
@@ -180,12 +180,12 @@ function gRpx {
 # alias gstw='git stash save --include-untracked --keep-index'
 
 # Submodule (S)
-# alias gS='git submodule'
-# alias gSa='git submodule add'
+alias gS='git submodule'
+alias gSa='git submodule add'
 # alias gSf='git submodule foreach'
-# alias gSi='git submodule init'
-# alias gSI='git submodule update --init --recursive'
-# alias gSl='git submodule status'
+alias gSi='git submodule init'
+alias gSI='git submodule update --init --recursive'
+alias gSl='git submodule status'
 # alias gSm='git-submodule-move'
 # alias gSs='git submodule sync'
 # alias gSu='git submodule foreach git pull origin master'
