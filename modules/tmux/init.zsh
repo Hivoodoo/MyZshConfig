@@ -42,8 +42,9 @@ if ( [[ -n "$SSH_TTY" ]] && \
 fi
 
 if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
-  ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) ||
-  ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) \
+  ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) || \
+  ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) || \
+  ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local-pre ) \
 ); then
   tmux start-server
 
@@ -56,7 +57,12 @@ if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
   fi
 
   # Attach to the 'prezto' session or to the last session used.
-  exec tmux $_tmux_iterm_integration attach-session
+  if ( \
+    ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) || \
+    ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) \
+  ); then
+    exec tmux $_tmux_iterm_integration attach-session
+  fi
 fi
 
 
