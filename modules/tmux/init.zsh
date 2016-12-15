@@ -23,6 +23,24 @@ if ([[ "$TERM_PROGRAM" = 'iTerm.app' ]] && \
   _tmux_iterm_integration='-CC'
 fi
 
+if ( [[ -n "$SSH_TTY" ]] && \
+    zstyle -t ':prezto:module:tmux:auto-start' ssh-prefix \
+); then
+  tmux set -g prefix C-a
+fi
+
+if ( [[ -z "$SSH_TTY" ]] && \
+    zstyle -t ':prezto:module:tmux:auto-start' local-prefix \
+); then
+  tmux set -g prefix C-b
+fi
+
+if ( [[ -n "$SSH_TTY" ]] && \
+    zstyle -t ':prezto:module:tmux:auto-start' ssh-update \
+); then
+  tmux_update_ssh;
+fi
+
 if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
   ( [[ -n "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' remote ) ||
   ( [[ -z "$SSH_TTY" ]] && zstyle -t ':prezto:module:tmux:auto-start' local ) \
@@ -31,7 +49,7 @@ if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
 
   # Create a 'prezto' session if no session has been defined in tmux.conf.
   if ! tmux has-session 2> /dev/null; then
-    tmux_session='prezto'
+    tmux_session='El_Psy'
     tmux \
       new-session -d -s "$tmux_session" \; \
       set-option -t "$tmux_session" destroy-unattached off &> /dev/null
@@ -41,9 +59,10 @@ if [[ -z "$TMUX" && -z "$EMACS" && -z "$VIM" ]] && ( \
   exec tmux $_tmux_iterm_integration attach-session
 fi
 
+
 #
 # Aliases
 #
 
-alias tmuxa="tmux $_tmux_iterm_integration new-session -A"
-alias tmuxl='tmux list-sessions'
+# alias tmuxa="tmux $_tmux_iterm_integration new-session -A"
+# alias tmuxl='tmux list-sessions'

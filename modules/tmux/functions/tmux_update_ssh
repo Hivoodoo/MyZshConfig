@@ -1,0 +1,16 @@
+# attempt to update SSH info for tmux session
+function tmux_update_ssh {
+  if (( ! $+commands[tmux] )); then
+    return 1;
+  fi
+
+  env_str="DISPLAY SSH_ASKPASS SSH_AUTH_SOCK SSH_AGENT_PID SSH_CONNECTION WINDOWID XAUTHORITY";
+  IFS=' ' read -A env_arr <<< "$env_str"
+  for k in ${env_arr[@]}; do
+    echo $k;
+    eval v="\$$k";
+    if [[ -n "$v" ]]; then
+      tmux set-env $k "$v";
+    fi
+  done;
+}
