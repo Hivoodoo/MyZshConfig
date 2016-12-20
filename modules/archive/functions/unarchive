@@ -59,6 +59,13 @@ while (( $# > 0 )); do
       && unrar x -ad "$1" \
       || rar x -ad "$1" ;;
     (*.7z) 7za x "$1" ;;
+    (*.rpm)
+    if (( $+commands[rpm2cpio] && $+commands[cpio] )); then
+      rpm2cpio "$1" | cpio -div
+    else
+      success=1
+    fi
+      ;;
     (*.deb)
       mkdir -p "$extract_dir/control"
       mkdir -p "$extract_dir/data"
