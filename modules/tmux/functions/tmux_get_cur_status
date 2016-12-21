@@ -1,0 +1,17 @@
+# get information of of tmux session, window, and pane
+
+function tmux_get_cur_status {
+  if [[ -z "$TMUX_PANE" ]]; then
+    return 1;
+  fi
+
+  local cur_status; #[0] session, [1] windows index, [2]: pane;
+  tmux list-panes -a | grep $TMUX_PANE | IFS=':.' read -A cur_status;
+
+  case "$1" in
+    session) echo ${cur_status[1]} ; ;;
+    window) echo ${cur_status[2]} ; ;;
+    pane) echo ${cur_status[3]} ; ;;
+    *) echo ${cur_status[1]}:${cur_status[2]}.${cur_status[3]} ; ;;
+  esac
+}
