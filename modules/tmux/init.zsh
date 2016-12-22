@@ -26,13 +26,13 @@ fi
 if ( [[ -n "$SSH_TTY" ]] && \
     zstyle -t ':prezto:module:tmux:auto-start' ssh-prefix \
 ); then
-  tmux set -g prefix C-a
+  tmux set -g prefix C-a > /dev/null
 fi
 
 if ( [[ -z "$SSH_TTY" ]] && \
     zstyle -t ':prezto:module:tmux:auto-start' local-prefix \
 ); then
-  tmux set -g prefix C-b
+  tmux set -g prefix C-b > /dev/null
 fi
 
 if ( [[ -n "$SSH_TTY" ]] && \
