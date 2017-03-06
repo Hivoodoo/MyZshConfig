@@ -132,5 +132,4 @@ zstyle ':completion:*:*:kill:*' menu yes select
 zstyle ":completion:*:commands" rehash 1
 
 # Avoid ctrl + s
-# stty stop ''
-
+stty stop ''

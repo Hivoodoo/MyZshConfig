@@ -13,6 +13,9 @@ if (( ! $+commands[tmux] )); then
   return 1
 fi
 
+# use vi style
+tmux setw -g mode-keys vi
+
 #
 # Auto Start
 #
@@ -21,18 +24,6 @@ if ([[ "$TERM_PROGRAM" = 'iTerm.app' ]] && \
   zstyle -t ':prezto:module:tmux:iterm' integrate \
 ); then
   _tmux_iterm_integration='-CC'
-fi
-
-if ( [[ -n "$SSH_TTY" ]] && \
-    zstyle -t ':prezto:module:tmux:auto-start' ssh-prefix \
-); then
-  tmux set -g prefix C-a > /dev/null
-fi
-
-if ( [[ -z "$SSH_TTY" ]] && \
-    zstyle -t ':prezto:module:tmux:auto-start' local-prefix \
-); then
-  tmux set -g prefix C-b > /dev/null
 fi
 
 if ( [[ -n "$SSH_TTY" ]] && \
