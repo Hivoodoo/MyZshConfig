@@ -11,3 +11,134 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+
+if [[ -s "${ZDOTDIR:-$HOME}/.zprivate" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprivate"
+fi
+
+autoload -Uz promptinit
+promptinit
+prompt yuki
+
+
+# Variables
+# export EDITOR="emacsclient --create-frame"
+# export VISUAL="emacsclient --create-frame --no-wait --alternate-editor gedit"
+export EDITOR="vim"
+export VISUAL="vim"
+export BROWSER="firefox"
+export PAGER="less -R"
+
+################ Alias ################
+
+alias h1='head -n 1'
+alias h2='head -n 2'
+alias h3='head -n 3'
+alias h4='head -n 4'
+alias h5='head -n 5'
+
+alias t1='tail -n 1'
+alias t2='tail -n 2'
+alias t3='tail -n 3'
+alias t4='tail -n 4'
+alias t5='tail -n 5'
+
+################ Program Aliases ##################
+
+# alias ec='emacsclient -c'
+# alias et='emacsclient --tty'
+
+alias bc='bc -q -l'
+alias rscp='rsync -v -P -e ssh'
+alias dnt='date +%Y%m%d.%H%M%S'
+alias ping1='ping -c 1 -w 2'
+
+alias tat='tmux attach-session -t'
+alias tls='tmux ls'
+alias tns='tmux new-session -s'
+
+################ Functions ########################
+
+SUDO=/usr/bin/sudo
+function sudo () {
+    if [ ${aliases[$1]} ]; then
+	x=${aliases[$1]};
+	if [ ${x%%\ *} = "nocorrect" ]; then
+	    eval "$SUDO ${aliases[$1]#*\ } ${@:2}";
+	elif [ ${x%%\ *} = "noglob" ]; then
+	    eval "$SUDO ${aliases[$1]#*\ } ${@:2}";
+	else
+	    eval "$SUDO ${aliases[$1]} ${@:2}"
+	fi;
+    else
+	eval "$SUDO ${@:1}";
+    fi;
+}
+
+WATCH=/usr/bin/watch
+function watch () {
+    if [ ${aliases[$1]} ]; then
+	x=${aliases[$1]};
+	if [ ${x%%\ *} = "nocorrect" ]; then
+	    eval "$WATCH ${aliases[$1]#*\ } ${@:2}";
+	elif [ ${x%%\ *} = "noglob" ]; then
+	    eval "$WATCH ${aliases[$1]} ${@:2}";
+	else
+	    eval "$WATCH ${aliases[$1]} ${@:2}"
+	fi;
+    else
+	eval "$WATCH ${@:1}";
+    fi;
+}
+
+alias ic='iconv -f gbk -t utf-8'
+alias pc0='proxychains'
+function pc () {
+    if [ ${aliases[$1]} ]; then
+	eval "proxychains ${aliases[$1]} ${@:2}";
+    else
+	eval "proxychains ${@:1}";
+    fi;
+}
+
+function swap() {
+  if [ $# -ne 2 ]; then
+    echo "Usage: swap file1 file2"
+  else
+    tmpfile=$(mktemp -u XXXXXXXX)
+    mv -f "$1" "$tmpfile"
+    mv "$2" "$1"
+    mv "$tmpfile" "$2"
+  fi
+}
+
+################ unknown commands. ################
+
+# alias alsamixer='alsamixer && sudo alsactl store'
+# alias temp='sensors && nvidia-settings -q GPUCoreTemp && hddtemp /dev/sda'
+# alias temp='sensors && hddtemp /dev/sda'
+alias -g silent="> /dev/null 2>&1"
+
+# Auto extension stuff
+alias -s c=$EDITOR
+alias -s cc=$EDITOR
+alias -s org=$EDITOR
+alias -s php=$EDITOR
+alias -s html=$BROWSER
+alias -s htm=$BROWSER
+alias -s pdf=evince
+alias -s doc=libreoffice
+alias -s docx=libreoffice
+
+# Zstyle
+# Auto complete arguments of kill
+zstyle ':completion:*:*:kill:*' menu yes select
+# Auto rebuild the cache of executable commands
+zstyle ":completion:*:commands" rehash 1
+
+# Avoid ctrl + s
+# stty stop ''
+
+# fix WSL2 slow
+# https://github.com/sorin-ionescu/prezto/issues/1820
+unsetopt PATH_DIRS
